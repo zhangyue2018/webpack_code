@@ -1,0 +1,10 @@
+import count from './js/count';
+import sum from './js/sum';
+import css from './css/index.css';
+import less from './less/index.less';
+import sass1 from './sass/index.sass';
+import sass2 from './sass/index.scss';
+import stylus from './stylus/index.styl';
+import './css/iconfont.css';
+console.log(count(8, 2));
+console.log(sum(1, 2, 3, 4));

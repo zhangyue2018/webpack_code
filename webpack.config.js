@@ -1,0 +1,70 @@
+const path = require('path');
+
+module.exports = {
+    //入口
+    entry: './src/main.js', //相对路径
+    //输出
+    output: {
+        // 所有文件的输出目录
+        // __dirname:当前文件的文件夹目录
+        path: path.resolve(__dirname, 'dist'), // 绝对路径
+        // 入口文件打包输出文件名(即entry定义的文件)
+        filename: 'static/js/main1.js',
+        // 自动清空上次的打包内容
+        // 原理：在打包前，将path整个目录清空，再进行打包
+        clean: true,
+    },
+    //加载器
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                // 执行顺序：从右到左
+                use: [
+                    'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
+                    'css-loader' // 将css资源编译成commonjs的模块到js中
+                ]
+            },
+            {
+                test: /\.less$/,
+                // loader: 'xxx', // loader只能使用一个loader
+                use: ['style-loader', 'css-loader', 'less-loader']
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.styl$/,
+                use: ['style-loader', 'css-loader', 'stylus-loader']
+            },
+            {
+                test: /\.(png|jpe?g|webp|gif|svg)$/,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        // 小于10kb的图片转base64
+                        // 优点：减少请求数量，缺点：体积会更大
+                        maxSize: 20 * 1024,
+                    }
+                },
+                generator: {
+                    // 输出图片名称
+                    filename: 'static/images/[hash:8][ext][query]',
+                }
+            },
+            {
+                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                type: 'asset/resource', // 原封不动的输出文件内容
+                generator: {
+                    // 输出图片名称
+                    filename: 'static/media/[hash:8][ext][query]',
+                }
+            }
+        ]
+    },
+    //插件
+    plugins: [],
+    //模式
+    mode: 'development'
+}
