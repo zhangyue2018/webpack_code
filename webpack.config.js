@@ -1,4 +1,5 @@
 const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     //入口
@@ -60,11 +61,24 @@ module.exports = {
                     // 输出图片名称
                     filename: 'static/media/[hash:8][ext][query]',
                 }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
+                loader: 'babel-loader',
+                // options: {
+                //     presets: ['@babel/preset-env'],
+                // }
             }
         ]
     },
     //插件
-    plugins: [],
+    plugins: [
+        new ESLintPlugin({
+            // 检测哪些文件
+            context: path.resolve(__dirname, 'src')
+        })
+    ],
     //模式
     mode: 'development'
 }
