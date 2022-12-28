@@ -1,5 +1,6 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     //入口
@@ -77,8 +78,19 @@ module.exports = {
         new ESLintPlugin({
             // 检测哪些文件
             context: path.resolve(__dirname, 'src')
+        }),
+        new HtmlWebpackPlugin({
+            // 模板，以public/index.html文件为模板创建新的html文件
+            // 新的html文件特点：1.结构和原来一直 2.自动引入打包输出的资源
+            template: path.resolve(__dirname, './public/index.html'),
         })
     ],
+    // 开发服务器:不会输出资源，在内存中编译打包
+    devServer: {
+        host: 'localhost', // 启动服务器域名
+        port: 3000, // 启动服务器端口号
+        open: true, // 是否自动打开浏览器
+    },
     //模式
     mode: 'development'
 }
