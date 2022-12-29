@@ -8,13 +8,14 @@ module.exports = {
     //输出
     output: {
         // 所有文件的输出目录
-        // __dirname:当前文件的文件夹目录
-        path: path.resolve(__dirname, 'dist'), // 绝对路径
+        // __dirname:当前文件的文件夹目录，但是dev环境不会输出打包文件，所以这个设置可以是undefined
+        // path: path.resolve(__dirname, '../dist'), // 绝对路径
+        path: undefined, // 绝对路径
         // 入口文件打包输出文件名(即entry定义的文件)
         filename: 'static/js/main1.js',
         // 自动清空上次的打包内容
         // 原理：在打包前，将path整个目录清空，再进行打包
-        clean: true,
+        // clean: true,
     },
     //加载器
     module: {
@@ -77,12 +78,12 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 检测哪些文件
-            context: path.resolve(__dirname, 'src')
+            context: path.resolve(__dirname, '../src')
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件
             // 新的html文件特点：1.结构和原来一直 2.自动引入打包输出的资源
-            template: path.resolve(__dirname, './public/index.html'),
+            template: path.resolve(__dirname, '../public/index.html'),
         })
     ],
     // 开发服务器:不会输出资源，在内存中编译打包
