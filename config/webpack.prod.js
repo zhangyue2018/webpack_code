@@ -91,6 +91,12 @@ module.exports = {
             }
         ]
     },
+    optimization: {
+        minimizer: [
+            '...',
+            new CssminimizerWebpackPlugin(),
+        ],
+    },
     //插件
     plugins: [
         new ESLintPlugin({
@@ -105,7 +111,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'static/css/main.css',
         }),
-        new CssminimizerWebpackPlugin(),
+        // new CssminimizerWebpackPlugin(),
     ],
     //模式
     mode: 'production'
