@@ -26,7 +26,17 @@ module.exports = {
                 use: [
                     // 'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
                     MiniCssExtractPlugin.loader,
-                    'css-loader' // 将css资源编译成commonjs的模块到js中
+                    'css-loader', // 将css资源编译成commonjs的模块到js中,
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    'postcss-preset-env', // 能解决大多数样式兼容性问题
+                                ],
+                            }
+                        }
+                    }
                 ]
             },
             {
@@ -36,6 +46,16 @@ module.exports = {
                     // 'style-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    'postcss-preset-env', // 能解决大多数样式兼容性问题
+                                ],
+                            }
+                        }
+                    },
                     'less-loader'
                 ]
             },
@@ -45,6 +65,16 @@ module.exports = {
                     // 'style-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    'postcss-preset-env', // 能解决大多数样式兼容性问题
+                                ],
+                            }
+                        }
+                    },
                     'sass-loader'
                 ]
             },
@@ -54,6 +84,16 @@ module.exports = {
                     // 'style-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    'postcss-preset-env', // 能解决大多数样式兼容性问题
+                                ],
+                            }
+                        }
+                    },
                     'stylus-loader'
                 ]
             },
