@@ -2,6 +2,7 @@ const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssminimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
 
 function getStyleLoader(...pre) {
@@ -104,6 +105,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'static/css/main.css',
         }),
+        new CssminimizerWebpackPlugin(),
     ],
     //模式
     mode: 'production'
