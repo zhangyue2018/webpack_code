@@ -1,6 +1,7 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     //入口
@@ -23,22 +24,38 @@ module.exports = {
                 test: /\.css$/,
                 // 执行顺序：从右到左
                 use: [
-                    'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
+                    // 'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
+                    MiniCssExtractPlugin.loader,
                     'css-loader' // 将css资源编译成commonjs的模块到js中
                 ]
             },
             {
                 test: /\.less$/,
                 // loader: 'xxx', // loader只能使用一个loader
-                use: ['style-loader', 'css-loader', 'less-loader']
+                use: [
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'less-loader'
+                ]
             },
             {
                 test: /\.s[ac]ss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.styl$/,
-                use: ['style-loader', 'css-loader', 'stylus-loader']
+                use: [
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.(png|jpe?g|webp|gif|svg)$/,
@@ -83,7 +100,10 @@ module.exports = {
             // 模板，以public/index.html文件为模板创建新的html文件
             // 新的html文件特点：1.结构和原来一直 2.自动引入打包输出的资源
             template: path.resolve(__dirname, '../public/index.html'),
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'static/css/main.css',
+        }),
     ],
     //模式
     mode: 'production'
