@@ -41,53 +41,57 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                // 执行顺序：从右到左
-                use: getStyleLoader(),
-            },
-            {
-                test: /\.less$/,
-                // loader: 'xxx', // loader只能使用一个loader
-                use: getStyleLoader('less-loader'),
-            },
-            {
-                test: /\.s[ac]ss$/,
-                use: getStyleLoader('sass-loader'),
-            },
-            {
-                test: /\.styl$/,
-                use: getStyleLoader('stylus-loader'),
-            },
-            {
-                test: /\.(png|jpe?g|webp|gif|svg)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        // 小于10kb的图片转base64
-                        // 优点：减少请求数量，缺点：体积会更大
-                        maxSize: 20 * 1024,
+                oneOf: [
+                    {
+                        test: /\.css$/,
+                        // 执行顺序：从右到左
+                        use: getStyleLoader(),
+                    },
+                    {
+                        test: /\.less$/,
+                        // loader: 'xxx', // loader只能使用一个loader
+                        use: getStyleLoader('less-loader'),
+                    },
+                    {
+                        test: /\.s[ac]ss$/,
+                        use: getStyleLoader('sass-loader'),
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: getStyleLoader('stylus-loader'),
+                    },
+                    {
+                        test: /\.(png|jpe?g|webp|gif|svg)$/,
+                        type: 'asset',
+                        parser: {
+                            dataUrlCondition: {
+                                // 小于10kb的图片转base64
+                                // 优点：减少请求数量，缺点：体积会更大
+                                maxSize: 20 * 1024,
+                            }
+                        },
+                        generator: {
+                            // 输出图片名称
+                            filename: 'static/images/[hash:8][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                        type: 'asset/resource', // 原封不动的输出文件内容
+                        generator: {
+                            // 输出图片名称
+                            filename: 'static/media/[hash:8][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
+                        loader: 'babel-loader',
+                        // options: {
+                        //     presets: ['@babel/preset-env'],
+                        // }
                     }
-                },
-                generator: {
-                    // 输出图片名称
-                    filename: 'static/images/[hash:8][ext][query]',
-                }
-            },
-            {
-                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-                type: 'asset/resource', // 原封不动的输出文件内容
-                generator: {
-                    // 输出图片名称
-                    filename: 'static/media/[hash:8][ext][query]',
-                }
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
-                loader: 'babel-loader',
-                // options: {
-                //     presets: ['@babel/preset-env'],
-                // }
+                ]
             }
         ]
     },
