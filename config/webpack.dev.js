@@ -91,6 +91,7 @@ module.exports = {
         host: 'localhost', // 启动服务器域名
         port: 3000, // 启动服务器端口号
         open: true, // 是否自动打开浏览器
+        hot: true, // 开启HMR（默认值）注：对js文件无效，要想对js文件生效，js文件需要一些额外的代码
     },
     //模式
     mode: 'development'
