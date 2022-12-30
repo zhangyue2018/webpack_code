@@ -105,7 +105,8 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 检测哪些文件
-            context: path.resolve(__dirname, '../src')
+            context: path.resolve(__dirname, '../src'),
+            exclude: "node_modules", // 默认值
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件

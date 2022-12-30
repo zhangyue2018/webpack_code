@@ -68,7 +68,8 @@ module.exports = {
                     },
                     {
                         test: /\.js$/,
-                        exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
+                        // exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
+                        include: path.resolve(__dirname, '../src'),  // 只处理src中的js文件, include和exclude只能写一个
                         loader: 'babel-loader',
                         // options: {
                         //     presets: ['@babel/preset-env'],
@@ -82,7 +83,8 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 检测哪些文件
-            context: path.resolve(__dirname, '../src')
+            context: path.resolve(__dirname, '../src'),
+            exclude: "node_modules",  // 默认值
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件
