@@ -1,6 +1,9 @@
 const path = require('path');
+const os = require('os');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const threads = os.cpus().length;  // cpu核数
 
 module.exports = {
     //入口
@@ -70,10 +73,22 @@ module.exports = {
                         test: /\.js$/,
                         // exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
                         include: path.resolve(__dirname, '../src'),  // 只处理src中的js文件, include和exclude只能写一个
-                        loader: 'babel-loader',
-                        // options: {
-                        //     presets: ['@babel/preset-env'],
-                        // }
+                        use: [
+                            {
+                                loader: 'thread-loader',  // 开启多进程
+                                options: {
+                                    workers: threads, // 进程数量
+
+                                }
+                            },
+                            {
+                                loader: 'babel-loader',
+                                options: {
+                                    cacheDirectory: true, // 开启babel缓存
+                                    cacheCompression: false, // 关闭缓存的压缩
+                                }
+                            }
+                        ],
                     }
                 ]
             }
@@ -85,6 +100,9 @@ module.exports = {
             // 检测哪些文件
             context: path.resolve(__dirname, '../src'),
             exclude: "node_modules",  // 默认值
+            ache: true, // 开启缓存
+            cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintCache'),
+            threads, // 开启多进程和进程数量
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件

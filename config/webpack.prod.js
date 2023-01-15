@@ -1,9 +1,13 @@
 const path = require('path');
+const os = require('os');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssminimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
+
+const threads = os.cpus().length;  // cpu核数
 
 function getStyleLoader(...pre) {
     return [
@@ -86,21 +90,35 @@ module.exports = {
                     {
                         test: /\.js$/,
                         exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
-                        loader: 'babel-loader',
-                        options: {
-                            // presets: ['@babel/preset-env'],
-                            cacheDirectory: true, // 开启babel缓存
-                            cacheCompression: false, // 关闭缓存的压缩
-                        }
+                        use: [
+                            {
+                                loader: 'thread-loader',  // 开启多进程
+                                options: {
+                                    workers: threads, // 进程数量
+
+                                }
+                            },
+                            {
+                                loader: 'babel-loader',
+                                options: {
+                                    cacheDirectory: true, // 开启babel缓存
+                                    cacheCompression: false, // 关闭缓存的压缩
+                                }
+                            }
+                        ],
                     }
                 ]
             }
         ]
     },
-    optimization: {
+    optimization: { // 优化
         minimizer: [
             '...',
-            new CssminimizerWebpackPlugin(),
+            new CssminimizerWebpackPlugin(), // 压缩css
+            // 压缩js
+            new TerserWebpackPlugin({
+                parallel: threads, // 开启多进程和设置进程数量
+            })
         ],
     },
     //插件
@@ -111,6 +129,7 @@ module.exports = {
             exclude: "node_modules", // 默认值
             cache: true, // 开启缓存
             cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintCache'),
+            threads, // 开启多进程和进程数量
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件
