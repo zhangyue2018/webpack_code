@@ -21,56 +21,61 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                // 执行顺序：从右到左
-                use: [
-                    'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
-                    'css-loader' // 将css资源编译成commonjs的模块到js中
-                ]
-            },
-            {
-                test: /\.less$/,
-                // loader: 'xxx', // loader只能使用一个loader
-                use: ['style-loader', 'css-loader', 'less-loader']
-            },
-            {
-                test: /\.s[ac]ss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
-            },
-            {
-                test: /\.styl$/,
-                use: ['style-loader', 'css-loader', 'stylus-loader']
-            },
-            {
-                test: /\.(png|jpe?g|webp|gif|svg)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        // 小于10kb的图片转base64
-                        // 优点：减少请求数量，缺点：体积会更大
-                        maxSize: 20 * 1024,
+                oneOf: [
+                    {
+                        test: /\.css$/,
+                        // 执行顺序：从右到左
+                        use: [
+                            'style-loader', // 将js中的css通过创建style标签添加到html文件中生效
+                            'css-loader' // 将css资源编译成commonjs的模块到js中
+                        ]
+                    },
+                    {
+                        test: /\.less$/,
+                        // loader: 'xxx', // loader只能使用一个loader
+                        use: ['style-loader', 'css-loader', 'less-loader']
+                    },
+                    {
+                        test: /\.s[ac]ss$/,
+                        use: ['style-loader', 'css-loader', 'sass-loader']
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: ['style-loader', 'css-loader', 'stylus-loader']
+                    },
+                    {
+                        test: /\.(png|jpe?g|webp|gif|svg)$/,
+                        type: 'asset',
+                        parser: {
+                            dataUrlCondition: {
+                                // 小于10kb的图片转base64
+                                // 优点：减少请求数量，缺点：体积会更大
+                                maxSize: 20 * 1024,
+                            }
+                        },
+                        generator: {
+                            // 输出图片名称
+                            filename: 'static/images/[hash:8][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                        type: 'asset/resource', // 原封不动的输出文件内容
+                        generator: {
+                            // 输出图片名称
+                            filename: 'static/media/[hash:8][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.js$/,
+                        // exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
+                        include: path.resolve(__dirname, '../src'),  // 只处理src中的js文件, include和exclude只能写一个
+                        loader: 'babel-loader',
+                        // options: {
+                        //     presets: ['@babel/preset-env'],
+                        // }
                     }
-                },
-                generator: {
-                    // 输出图片名称
-                    filename: 'static/images/[hash:8][ext][query]',
-                }
-            },
-            {
-                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-                type: 'asset/resource', // 原封不动的输出文件内容
-                generator: {
-                    // 输出图片名称
-                    filename: 'static/media/[hash:8][ext][query]',
-                }
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/, // 排除node_modules中的js文件（这些文件不处理）
-                loader: 'babel-loader',
-                // options: {
-                //     presets: ['@babel/preset-env'],
-                // }
+                ]
             }
         ]
     },
@@ -78,7 +83,8 @@ module.exports = {
     plugins: [
         new ESLintPlugin({
             // 检测哪些文件
-            context: path.resolve(__dirname, '../src')
+            context: path.resolve(__dirname, '../src'),
+            exclude: "node_modules",  // 默认值
         }),
         new HtmlWebpackPlugin({
             // 模板，以public/index.html文件为模板创建新的html文件
@@ -91,6 +97,7 @@ module.exports = {
         host: 'localhost', // 启动服务器域名
         port: 3000, // 启动服务器端口号
         open: true, // 是否自动打开浏览器
+        hot: true, // 开启HMR（默认值）注：对js文件无效，要想对js文件生效，js文件需要一些额外的代码
     },
     //模式
     mode: 'development',
