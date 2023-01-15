@@ -114,5 +114,6 @@ module.exports = {
         // new CssminimizerWebpackPlugin(),
     ],
     //模式
-    mode: 'production'
+    mode: 'production',
+    devtool: 'source-map', // 大多数情况下，生产环境是直接禁止使用source-map的
 }
