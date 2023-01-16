@@ -100,7 +100,7 @@ module.exports = {
             // 检测哪些文件
             context: path.resolve(__dirname, '../src'),
             exclude: "node_modules",  // 默认值
-            ache: true, // 开启缓存
+            cache: true, // 开启缓存
             cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintCache'),
             threads, // 开启多进程和进程数量
         }),
