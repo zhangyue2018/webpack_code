@@ -13,8 +13,9 @@ console.log(sum(1, 2, 3, 4, 5, 6));
 
 document.getElementById('btn').onclick = async function() {
     // eslint不能识别动态导入，需要额外追加配置
-    let {mul} = await import('./js/math').catch(err => console.log('加载模块失败', err));
-    document.getElementById('res').innerText = mul(2, 6);
+    // /* webpackChunkName: "math" */ webpack魔法命名
+    let {mul} = await import(/* webpackChunkName: "math" */ './js/math').catch(err => console.log('加载模块失败', err));
+    console.log('---mul---', mul(2,7));
 };
 
 // 判断是否支持热模块替换功能

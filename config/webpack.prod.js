@@ -36,7 +36,10 @@ module.exports = {
         // __dirname:当前文件的文件夹目录
         path: path.resolve(__dirname, '../dist'), // 绝对路径
         // 入口文件打包输出文件名(即entry定义的文件)
-        filename: 'static/js/main1.js',
+        filename: 'static/js/[name].js',
+        // filename: 'static/js/main1.js',
+        // 给打包输出的其他文件命名(使用的是webpackChunkName)
+        // chunkFilename: "static/js/[name].js",
         // 自动清空上次的打包内容
         // 原理：在打包前，将path整个目录清空，再进行打包
         clean: true,
@@ -125,6 +128,24 @@ module.exports = {
         splitChunks: {
             chunks: "all",
             // 其他都用默认值
+            cacheGroups: {
+                count: {
+                    minSize: 0, // 我们定义的文件体积太小了，所以要打包的最小文件体积是0
+                    test: /count.js$/,
+                    priority: -20,
+                    minChunks: 1,
+                    reuseExistingChunk: true,
+                    name: 'count'
+                },
+                sum: {
+                    minSize: 0, // 我们定义的文件体积太小了，所以要打包的最小文件体积是0
+                    test: /sum.js$/,
+                    priority: -30,
+                    minChunks: 1,
+                    reuseExistingChunk: true,
+                    name: 'sum'
+                },
+            }
         }
     },
     //插件
