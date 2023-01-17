@@ -11,6 +11,6 @@ module.exports = {
     },
     rules: {
         "no-var": 2, // 不能使用var定义变量
-    }
-
+    },
+    plugins: ["import"],
 }

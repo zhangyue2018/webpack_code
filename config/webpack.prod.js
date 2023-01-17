@@ -121,6 +121,11 @@ module.exports = {
                 parallel: threads, // 开启多进程和设置进程数量
             })
         ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all",
+            // 其他都用默认值
+        }
     },
     //插件
     plugins: [
