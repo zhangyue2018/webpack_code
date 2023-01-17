@@ -38,8 +38,8 @@ module.exports = {
         // 入口文件打包输出文件名(即entry定义的文件)
         filename: 'static/js/[name].js',
         // filename: 'static/js/main1.js',
-        // 给打包输出的其他文件命名(使用的是webpackChunkName)
-        // chunkFilename: "static/js/[name].js",
+        chunkFilename: "static/js/[name].chunk.js", // 给动态引入[import()的形式]的文件打包命名(使用的是webpackChunkName)
+        assetModuleFilename: 'static/media/[hash:8][ext][query]',  // 图片、字体等通过type:asset处理的资源命名方式
         // 自动清空上次的打包内容
         // 原理：在打包前，将path整个目录清空，再进行打包
         clean: true,
@@ -79,7 +79,7 @@ module.exports = {
                         },
                         generator: {
                             // 输出图片名称
-                            filename: 'static/images/[hash:8][ext][query]',
+                            // filename: 'static/images/[hash:8][ext][query]',
                         }
                     },
                     {
@@ -87,7 +87,7 @@ module.exports = {
                         type: 'asset/resource', // 原封不动的输出文件内容
                         generator: {
                             // 输出图片名称
-                            filename: 'static/media/[hash:8][ext][query]',
+                            // filename: 'static/media/[hash:8][ext][query]',
                         }
                     },
                     {
@@ -164,7 +164,8 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html'),
         }),
         new MiniCssExtractPlugin({
-            filename: 'static/css/main.css',
+            filename: 'static/css/[name].css', // 可能多入口打包，生成多个css文件
+            chunkFilename: "static/css/[name].chunk.css", // 动态导入(import()形式)的js里也有css，也会生成chunk，这些chunk css用此方式命名
         }),
         // new CssminimizerWebpackPlugin(),
     ],

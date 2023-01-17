@@ -15,7 +15,9 @@ module.exports = {
         // path: path.resolve(__dirname, '../dist'), // 绝对路径
         path: undefined, // 绝对路径
         // 入口文件打包输出文件名(即entry定义的文件)
-        filename: 'static/js/main1.js',
+        filename: 'static/js/[name].js',
+        chunkFilename: 'static/js/[name].chunk.js',
+        assetModuleFilename: 'static/media/[hash:8][ext][query]',
         // 自动清空上次的打包内容
         // 原理：在打包前，将path整个目录清空，再进行打包
         // clean: true,
@@ -58,7 +60,7 @@ module.exports = {
                         },
                         generator: {
                             // 输出图片名称
-                            filename: 'static/images/[hash:8][ext][query]',
+                            // filename: 'static/images/[hash:8][ext][query]',
                         }
                     },
                     {
@@ -66,7 +68,7 @@ module.exports = {
                         type: 'asset/resource', // 原封不动的输出文件内容
                         generator: {
                             // 输出图片名称
-                            filename: 'static/media/[hash:8][ext][query]',
+                            // filename: 'static/media/[hash:8][ext][query]',
                         }
                     },
                     {

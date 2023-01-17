@@ -15,6 +15,7 @@ document.getElementById('btn').onclick = async function() {
     // eslint不能识别动态导入，需要额外追加配置
     // /* webpackChunkName: "math" */ webpack魔法命名
     let {mul} = await import(/* webpackChunkName: "math" */ './js/math').catch(err => console.log('加载模块失败', err));
+    document.getElementById('res').innerText = mul(2,7);
     console.log('---mul---', mul(2,7));
 };
 
