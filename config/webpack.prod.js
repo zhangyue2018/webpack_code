@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssminimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 
 
 const threads = os.cpus().length;  // cpu核数
@@ -168,6 +169,11 @@ module.exports = {
             chunkFilename: "static/css/[name].chunk.css", // 动态导入(import()形式)的js里也有css，也会生成chunk，这些chunk css用此方式命名
         }),
         // new CssminimizerWebpackPlugin(),
+        new PreloadWebpackPlugin({
+            // rel: "preload",
+            // as: "script",
+            rel: 'prefetch'
+        })
     ],
     //模式
     mode: 'production',
