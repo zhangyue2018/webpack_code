@@ -33,3 +33,13 @@ if(module.hot) {
     module.hot.accept('./js/count');
     module.hot.accept('./js/sum');
 }
+
+if('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        this.navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('SW registered:', registration);
+        }).catch(err => {
+            console.log('SW registration failed:', err);
+        });
+    });
+}

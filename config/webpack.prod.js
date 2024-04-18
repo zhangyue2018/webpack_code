@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssminimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 
 const threads = os.cpus().length;  // cpu核数
@@ -176,7 +177,13 @@ module.exports = {
             // rel: "preload",
             // as: "script",
             rel: 'prefetch'
-        })
+        }),
+        new WorkboxWebpackPlugin.GenerateSW({
+            // 这些选项帮助快速启动 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
+        }),
     ],
     //模式
     mode: 'production',
