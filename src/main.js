@@ -1,3 +1,8 @@
+// 完整引入
+// import 'core-js';
+// 按需加载
+// import 'core-js/es/promise';
+
 import count from './js/count';
 import sum from './js/sum';
 // import { mul } from './js/math';
@@ -18,6 +23,10 @@ document.getElementById('btn').onclick = async function() {
     document.getElementById('res').innerText = mul(2,7);
     console.log('---mul---', mul(2,7));
 };
+
+new Promise(function(resolve, reject){
+    setTimeout(resolve, 2000);
+});
 
 // 判断是否支持热模块替换功能
 if(module.hot) {

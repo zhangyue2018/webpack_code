@@ -32,6 +32,7 @@
     "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^8.3.0",
+    "core-js": "^3.27.2",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "less": "^4.1.3",
